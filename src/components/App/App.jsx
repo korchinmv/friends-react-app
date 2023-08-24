@@ -12,7 +12,9 @@ const App = () => {
 
   return (
     <div className="App container vh-100">
-      <Searching clickSearch={handleSearchClick} />
+      {friends.length !== 0 ? null : (
+        <Searching clickSearch={handleSearchClick} />
+      )}
 
       {friends.length !== 0 ? <FriendsList friends={friends} /> : null}
     </div>

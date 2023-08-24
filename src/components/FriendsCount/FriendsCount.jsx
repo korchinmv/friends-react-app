@@ -1,5 +1,7 @@
 const FriendsCount = ({ friendsCount }) => {
-  return <span className="">{`У вас ${friendsCount} друзей`}</span>;
+  return (
+    <h2 className="text-center display-3 mb-5">{`У вас ${friendsCount} друзей`}</h2>
+  );
 };
 
 export default FriendsCount;
