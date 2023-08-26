@@ -11,7 +11,7 @@ const App = () => {
   };
 
   return (
-    <div className="App container vh-100">
+    <div className='App container vh-100'>
       {friends.length !== 0 ? null : (
         <Searching clickSearch={handleSearchClick} />
       )}
