@@ -1,20 +1,19 @@
 import { useState, useEffect } from "react";
 import FriendsCount from "../FriendsCount/FriendsCount";
 
-const FriendsList = ({ friends }) => {
+const FriendsList = ({ friends, setFriends }) => {
   const [countFriend, setCountFriend] = useState(0);
-  const [friendList, setFriendList] = useState(friends);
   const [professionsSelectList, setProfessionsSelectList] = useState([]);
   const [qualitiesSelectList, setQualitiesSelectList] = useState([]);
 
   useEffect(() => {
-    setCountFriend(friendList.length);
+    setCountFriend(friends.length);
     getProfessionsSelectList();
     getQualitiesSelectList();
-  }, [friendList]);
+  }, [friends]);
 
   const getProfessionsSelectList = () => {
-    const professionsArray = friendList.map((friend) => {
+    const professionsArray = friends.map((friend) => {
       return friend.profession.name;
     });
     const uniqueProfessionList = professionsArray.filter(
@@ -24,14 +23,16 @@ const FriendsList = ({ friends }) => {
   };
 
   const getQualitiesSelectList = () => {
-    const qualitiesArray = friendList.map((friend) => {
-      return [...friend.qualities];
-    });
-    console.log(qualitiesArray);
-    const uniqueList = qualitiesArray.filter(
+    const qualitiesArray = friends.reduce((total, friend) => {
+      const arr = friend.qualities.map((quality) => {
+        return quality.name;
+      });
+      return [...total, ...arr];
+    }, []);
+    const uniqueQualitiesList = qualitiesArray.filter(
       (item, i, ar) => ar.indexOf(item) === i
     );
-    setQualitiesSelectList(uniqueList);
+    setQualitiesSelectList(uniqueQualitiesList);
   };
 
   return (
@@ -62,9 +63,9 @@ const FriendsList = ({ friends }) => {
                 defaultValue="Качества..."
                 required
               >
-                {/* {qualitiesSelectList.map((q, i) => (
+                {qualitiesSelectList.map((q, i) => (
                   <option key={i}>{q}</option>
-                ))} */}
+                ))}
               </select>
             </th>
             <th scope="col">Действие</th>
@@ -72,7 +73,7 @@ const FriendsList = ({ friends }) => {
         </thead>
 
         <tbody>
-          {friendList.map((friend, index) => {
+          {friends.map((friend, index) => {
             return (
               <tr key={friend._id}>
                 <th scope="row">{index + 1}</th>
@@ -95,9 +96,7 @@ const FriendsList = ({ friends }) => {
                   <button
                     className="btn btn-danger"
                     onClick={() => {
-                      setFriendList(
-                        friendList.filter((f) => f._id !== friend._id)
-                      );
+                      setFriends(friends.filter((f) => f._id !== friend._id));
                     }}
                   >
                     Удалить друга

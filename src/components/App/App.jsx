@@ -16,7 +16,9 @@ const App = () => {
         <Searching clickSearch={handleSearchClick} />
       )}
 
-      {friends.length !== 0 ? <FriendsList friends={friends} /> : null}
+      {friends.length !== 0 ? (
+        <FriendsList friends={friends} setFriends={setFriends} />
+      ) : null}
     </div>
   );
 };
