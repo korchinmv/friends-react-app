@@ -1,24 +1,39 @@
+import { Routes, Route } from "react-router-dom";
 import { useState } from "react";
-import Searching from "../Searching/Searching";
-import FriendsList from "../FriendsList/FriendsList";
+import { FriendList } from "../pages/FriendList/FriendList";
+import { BestFriendList } from "../pages/BestFriendList/BestFriendList";
+
 import Api from "../../api/index";
 
 const App = () => {
   const [friends, setFriends] = useState([]);
+  const [bestFriends, setBestFriends] = useState([]);
 
   const handleSearchClick = () => {
     setFriends(Api.users.fetchAll());
   };
 
   return (
-    <div className='App container vh-100'>
-      {friends.length !== 0 ? null : (
-        <Searching clickSearch={handleSearchClick} />
-      )}
+    <div className="page container vh-100">
+      <Routes>
+        <Route
+          index
+          path="/"
+          element={
+            <FriendList
+              friends={friends}
+              searchClick={handleSearchClick}
+              setFriends={setFriends}
+              setBestFriends={setBestFriends}
+            />
+          }
+        />
 
-      {friends.length !== 0 ? (
-        <FriendsList friends={friends} setFriends={setFriends} />
-      ) : null}
+        <Route
+          path="/best-friends"
+          element={<BestFriendList bestFriends={bestFriends} />}
+        />
+      </Routes>
     </div>
   );
 };

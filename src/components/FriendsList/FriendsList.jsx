@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import FriendsCount from "../FriendsCount/FriendsCount";
 import { professions } from "../../api/user.api.js";
 import { qualities } from "../../api/user.api";
+import { NavLink } from "react-router-dom";
 
 const FriendsList = ({ friends, setFriends }) => {
   const [countFriend, setCountFriend] = useState(0);
   const [filtredFriends, setFiltredFriends] = useState(friends);
+  const isMainPage = window.location.pathname === "/";
 
   useEffect(() => {
     setCountFriend(filtredFriends.length);
@@ -24,7 +26,6 @@ const FriendsList = ({ friends, setFriends }) => {
       setFiltredFriends(friends);
     } else {
       const newArray = friends.filter((f) => {
-        console.log(friends);
         return f.profession.name === e.target.value;
       });
       setFiltredFriends(newArray);
@@ -33,12 +34,10 @@ const FriendsList = ({ friends, setFriends }) => {
 
   const handleChangeOptionQuality = (e) => {
     if (e.target.value === "all") {
-      setFiltredFriends(filtredFriends);
+      setFiltredFriends(friends);
     } else {
-      const newArray = friends.filter((friend) => {
-        friend.qualities.forEach((q) => {
-          return q.name === e.target.value;
-        });
+      const newArray = filtredFriends.filter((f) => {
+        return f.qualities.some((item) => item.name === e.target.value);
       });
       setFiltredFriends(newArray);
     }
@@ -47,17 +46,27 @@ const FriendsList = ({ friends, setFriends }) => {
   return (
     <>
       <FriendsCount friendsCount={countFriend} />
-
-      <table className='table table-hover'>
+      <NavLink
+        style={{ width: "fit-content" }}
+        className={
+          "link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover d-block mb-5 mx-auto"
+        }
+        to={isMainPage ? "/best-friends" : "/"}
+      >
+        {isMainPage
+          ? "Посмотреть список лучших друзей"
+          : "Смотреть всех друзей"}
+      </NavLink>
+      <table className="table table-hover">
         <thead>
           <tr>
-            <th scope='col'>#</th>
-            <th scope='col'>Имя</th>
-            <th scope='col'>
-              <label htmlFor='select-proffesion'>Профессия:</label>
+            <th scope="col">#</th>
+            <th scope="col">Имя</th>
+            <th scope="col">
+              <label htmlFor="select-proffesion">Профессия:</label>
               <select
-                className='form-select'
-                id='select-proffesion'
+                className="form-select"
+                id="select-proffesion"
                 defaultValue={""}
                 onChange={handleChangeOptionProfession}
                 required
@@ -73,11 +82,11 @@ const FriendsList = ({ friends, setFriends }) => {
                 <option value={"all"}>Все профессии</option>
               </select>
             </th>
-            <th scope='col'>
-              <label htmlFor='select-quality'>Качество:</label>
+            <th scope="col">
+              <label htmlFor="select-quality">Качество:</label>
               <select
-                className='form-select'
-                id='select-quality'
+                className="form-select"
+                id="select-quality"
                 defaultValue={""}
                 onChange={handleChangeOptionQuality}
                 required
@@ -93,7 +102,7 @@ const FriendsList = ({ friends, setFriends }) => {
                 <option value={"all"}>Все качества</option>
               </select>
             </th>
-            <th scope='col'>Действие</th>
+            <th scope="col">Действие</th>
           </tr>
         </thead>
 
@@ -102,7 +111,7 @@ const FriendsList = ({ friends, setFriends }) => {
             filtredFriends.map((friend, index) => {
               return (
                 <tr key={friend._id}>
-                  <th scope='row'>{index + 1}</th>
+                  <th scope="row">{index + 1}</th>
                   <td>{friend.name}</td>
                   <td>{friend.profession.name}</td>
                   <td>
@@ -116,11 +125,11 @@ const FriendsList = ({ friends, setFriends }) => {
                     ))}
                   </td>
                   <td>
-                    <button className='btn btn-success me-3'>
+                    <button className="btn btn-success me-3">
                       Добавить в лучшие друзья
                     </button>
                     <button
-                      className='btn btn-danger'
+                      className="btn btn-danger"
                       onClick={() => {
                         setFiltredFriends(
                           filtredFriends.filter((f) => f._id !== friend._id)
@@ -136,7 +145,7 @@ const FriendsList = ({ friends, setFriends }) => {
             })
           ) : (
             <tr>
-              <td className='text-center' colSpan='5'>
+              <td className="text-center" colSpan="5">
                 Список пуст
               </td>
             </tr>
