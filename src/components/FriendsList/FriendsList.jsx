@@ -1,45 +1,47 @@
 import { useState, useEffect } from "react";
 import FriendsCount from "../FriendsCount/FriendsCount";
+import { professions } from "../../api/user.api.js";
+import { qualities } from "../../api/user.api";
 
 const FriendsList = ({ friends, setFriends }) => {
   const [countFriend, setCountFriend] = useState(0);
-  const [professionsSelectList, setProfessionsSelectList] = useState([]);
-  const [qualitiesSelectList, setQualitiesSelectList] = useState([]);
+  const [filtredFriends, setFiltredFriends] = useState(friends);
 
   useEffect(() => {
-    setCountFriend(friends.length);
-    getProfessionsSelectList();
-    getQualitiesSelectList();
-  }, [friends]);
+    setCountFriend(filtredFriends.length);
+  }, [filtredFriends, friends]);
 
-  // const getProfessionsSelectList = () => {
-  //   const professionsArray = friends.map((friend) => {
-  //     return friend.profession.name;
-  //   });
-  //   const uniqueProfessionList = professionsArray.filter(
-  //     (item, i, ar) => ar.indexOf(item) === i
-  //   );
-  //   setProfessionsSelectList(uniqueProfessionList);
-  // };
+  const getOptions = (professions) => {
+    let arr = [];
+    for (var key in professions) {
+      arr.push(professions[key]);
+    }
+    return arr;
+  };
 
-  // const getQualitiesSelectList = () => {
-  //   const qualitiesArray = friends.reduce((total, friend) => {
-  //     const arr = friend.qualities.map((quality) => {
-  //       return quality.name;
-  //     });
-  //     return [...total, ...arr];
-  //   }, []);
-  //   const uniqueQualitiesList = qualitiesArray.filter(
-  //     (item, i, ar) => ar.indexOf(item) === i
-  //   );
-  //   setQualitiesSelectList(uniqueQualitiesList);
-  // };
+  const handleChangeOptionProfession = (e) => {
+    if (e.target.value === "all") {
+      setFiltredFriends(friends);
+    } else {
+      const newArray = friends.filter((f) => {
+        console.log(friends);
+        return f.profession.name === e.target.value;
+      });
+      setFiltredFriends(newArray);
+    }
+  };
 
-  const filterProfession = (e) => {
-    const newArray = friends.filter((f) => {
-      return f.profession.name !== e.target.value;
-    });
-    setFriends(newArray);
+  const handleChangeOptionQuality = (e) => {
+    if (e.target.value === "all") {
+      setFiltredFriends(filtredFriends);
+    } else {
+      const newArray = friends.filter((friend) => {
+        friend.qualities.forEach((q) => {
+          return q.name === e.target.value;
+        });
+      });
+      setFiltredFriends(newArray);
+    }
   };
 
   return (
@@ -57,17 +59,18 @@ const FriendsList = ({ friends, setFriends }) => {
                 className='form-select'
                 id='select-proffesion'
                 defaultValue={""}
-                onChange={filterProfession}
+                onChange={handleChangeOptionProfession}
                 required
               >
                 <option value={""} disabled>
                   -- Выберите профессию --
                 </option>
-                {professionsSelectList.map((prof, i) => (
-                  <option key={i} value={prof}>
-                    {prof}
+                {getOptions(professions).map((p) => (
+                  <option key={p._id} value={p.name}>
+                    {p.name}
                   </option>
                 ))}
+                <option value={"all"}>Все профессии</option>
               </select>
             </th>
             <th scope='col'>
@@ -76,16 +79,18 @@ const FriendsList = ({ friends, setFriends }) => {
                 className='form-select'
                 id='select-quality'
                 defaultValue={""}
+                onChange={handleChangeOptionQuality}
                 required
               >
                 <option value={""} disabled>
                   -- Выберите качество --
                 </option>
-                {qualitiesSelectList.map((q, i) => (
-                  <option key={i} value={q}>
-                    {q}
+                {getOptions(qualities).map((q) => (
+                  <option key={q._id} value={q.name}>
+                    {q.name}
                   </option>
                 ))}
+                <option value={"all"}>Все качества</option>
               </select>
             </th>
             <th scope='col'>Действие</th>
@@ -93,38 +98,49 @@ const FriendsList = ({ friends, setFriends }) => {
         </thead>
 
         <tbody>
-          {friends.map((friend, index) => {
-            return (
-              <tr key={friend._id}>
-                <th scope='row'>{index + 1}</th>
-                <td>{friend.name}</td>
-                <td>{friend.profession.name}</td>
-                <td>
-                  {friend.qualities.map((quality) => (
-                    <span
-                      className={`badge btn-${quality.color} m-1`}
-                      key={quality._id}
+          {filtredFriends.length !== 0 ? (
+            filtredFriends.map((friend, index) => {
+              return (
+                <tr key={friend._id}>
+                  <th scope='row'>{index + 1}</th>
+                  <td>{friend.name}</td>
+                  <td>{friend.profession.name}</td>
+                  <td>
+                    {friend.qualities.map((quality) => (
+                      <span
+                        className={`badge btn-${quality.color} m-1`}
+                        key={quality._id}
+                      >
+                        {quality.name}
+                      </span>
+                    ))}
+                  </td>
+                  <td>
+                    <button className='btn btn-success me-3'>
+                      Добавить в лучшие друзья
+                    </button>
+                    <button
+                      className='btn btn-danger'
+                      onClick={() => {
+                        setFiltredFriends(
+                          filtredFriends.filter((f) => f._id !== friend._id)
+                        );
+                        setFriends(friends.filter((f) => f._id !== friend._id));
+                      }}
                     >
-                      {quality.name}
-                    </span>
-                  ))}
-                </td>
-                <td>
-                  <button className='btn btn-success me-3'>
-                    Добавить в лучшие друзья
-                  </button>
-                  <button
-                    className='btn btn-danger'
-                    onClick={() => {
-                      setFriends(friends.filter((f) => f._id !== friend._id));
-                    }}
-                  >
-                    Удалить друга
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
+                      Удалить друга
+                    </button>
+                  </td>
+                </tr>
+              );
+            })
+          ) : (
+            <tr>
+              <td className='text-center' colSpan='5'>
+                Список пуст
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </>
