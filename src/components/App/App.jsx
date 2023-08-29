@@ -14,24 +14,32 @@ const App = () => {
   };
 
   return (
-    <div className="page container vh-100">
+    <div className='page container vh-100'>
       <Routes>
         <Route
           index
-          path="/"
+          path='/'
           element={
             <FriendList
               friends={friends}
               searchClick={handleSearchClick}
               setFriends={setFriends}
               setBestFriends={setBestFriends}
+              bestFriends={bestFriends}
             />
           }
         />
 
         <Route
-          path="/best-friends"
-          element={<BestFriendList bestFriends={bestFriends} />}
+          path='/best-friends'
+          element={
+            <BestFriendList
+              bestFriends={bestFriends}
+              setBestFriends={setBestFriends}
+              friends={friends}
+              setFriends={setFriends}
+            />
+          }
         />
       </Routes>
     </div>

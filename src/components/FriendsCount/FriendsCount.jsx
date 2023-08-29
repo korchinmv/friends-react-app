@@ -1,12 +1,19 @@
-const FriendsCount = ({ friendsCount }) => {
+const FriendsCount = ({ friendsCount, bestFriendsCount, isMainPage }) => {
+  const checkCount = (count) => {
+    if (count === 0) {
+      return "нету";
+    } else if (count === 1) {
+      return `${count} друг`;
+    } else if (count <= 4) {
+      return `${count} друга`;
+    }
+    return `${count} друзей`;
+  };
+
   return (
-    <h2 className='text-center display-3 mb-5'>{`У вас ${friendsCount} ${
-      friendsCount < 3 && friendsCount !== 1 && friendsCount !== 0
-        ? "друга"
-        : friendsCount === 1
-        ? "друг"
-        : "друзей"
-    }`}</h2>
+    <h2 className='text-center display-3 mb-5'>{`У вас ${
+      isMainPage ? checkCount(friendsCount) : checkCount(bestFriendsCount)
+    } `}</h2>
   );
 };
 
