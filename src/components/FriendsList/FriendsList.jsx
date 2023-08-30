@@ -8,7 +8,7 @@ const FriendsList = ({ friends, setFriends, bestFriends, setBestFriends }) => {
   const [filtredFriends, setFiltredFriends] = useState(friends);
   const [filtredBestFriends, setFiltredBestFriends] = useState(bestFriends);
   const isMainPage = window.location.pathname === "/";
-  console.log(filtredBestFriends);
+
   const getOptions = (professions) => {
     let arr = [];
     for (var key in professions) {
@@ -22,7 +22,7 @@ const FriendsList = ({ friends, setFriends, bestFriends, setBestFriends }) => {
       if (isMainPage) {
         setFiltredFriends(friends);
       } else {
-        setFiltredBestFriends(filtredBestFriends);
+        setFiltredBestFriends(bestFriends);
       }
     } else {
       if (isMainPage) {
@@ -41,12 +41,23 @@ const FriendsList = ({ friends, setFriends, bestFriends, setBestFriends }) => {
 
   const handleChangeOptionQuality = (e) => {
     if (e.target.value === "all") {
-      setFiltredFriends(friends);
+      if (isMainPage) {
+        setFiltredFriends(friends);
+      } else {
+        setFiltredBestFriends(bestFriends);
+      }
     } else {
-      const newArray = filtredFriends.filter((f) => {
-        return f.qualities.some((item) => item.name === e.target.value);
-      });
-      setFiltredFriends(newArray);
+      if (isMainPage) {
+        const newArray = filtredFriends.filter((f) => {
+          return f.qualities.some((item) => item.name === e.target.value);
+        });
+        setFiltredFriends(newArray);
+      } else {
+        const newArray = filtredBestFriends.filter((f) => {
+          return f.qualities.some((item) => item.name === e.target.value);
+        });
+        setFiltredBestFriends(newArray);
+      }
     }
   };
 
@@ -185,9 +196,11 @@ const FriendsList = ({ friends, setFriends, bestFriends, setBestFriends }) => {
                     <button
                       className='btn btn-danger'
                       onClick={() => {
-                        setFiltredBestFriends(
-                          filtredBestFriends.filter((f) => f._id !== friend._id)
+                        const newArr = filtredBestFriends.filter(
+                          (f) => f._id !== friend._id
                         );
+                        setFiltredBestFriends(newArr);
+                        setBestFriends(newArr);
                         setFriends([...friends, friend]);
                       }}
                     >
