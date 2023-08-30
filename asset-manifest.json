@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/friends-react-app/static/css/main.81709c19.css",
-    "main.js": "/friends-react-app/static/js/main.705aa7ed.js",
+    "main.js": "/friends-react-app/static/js/main.f6962560.js",
     "index.html": "/friends-react-app/index.html",
     "main.81709c19.css.map": "/friends-react-app/static/css/main.81709c19.css.map",
-    "main.705aa7ed.js.map": "/friends-react-app/static/js/main.705aa7ed.js.map"
+    "main.f6962560.js.map": "/friends-react-app/static/js/main.f6962560.js.map"
   },
   "entrypoints": [
     "static/css/main.81709c19.css",
-    "static/js/main.705aa7ed.js"
+    "static/js/main.f6962560.js"
   ]
 }
