@@ -1,7 +1,7 @@
 const FriendsCount = ({ friendsCount, bestFriendsCount, isMainPage }) => {
   const checkCount = (count) => {
     if (count === 0) {
-      return "нету";
+      return "нету друзей";
     } else if (count === 1) {
       return `${count} друг`;
     } else if (count <= 4) {

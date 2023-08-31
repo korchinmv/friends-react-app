@@ -18,6 +18,7 @@ const App = () => {
       <Routes>
         <Route
           index
+          exact
           path='/'
           element={
             <FriendList
