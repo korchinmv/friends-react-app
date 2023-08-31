@@ -7,7 +7,7 @@
 - JavaScript
 - React.js
 
-- [Ссылка на проект] https://korchinmv.github.io/friends-react-app/
+- [Ссылка на проект] https://tiny-shortbread-1fd8f7.netlify.app/
 
 **О проекте**
 
