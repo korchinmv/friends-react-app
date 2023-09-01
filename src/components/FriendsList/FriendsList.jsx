@@ -3,6 +3,7 @@ import FriendsCount from "../FriendsCount/FriendsCount";
 import { professions } from "../../api/user.api.js";
 import { qualities } from "../../api/user.api";
 import { NavLink } from "react-router-dom";
+import Friend from "../Friend/Friend";
 
 const FriendsList = ({ friends, setFriends, bestFriends, setBestFriends }) => {
   const [filtredFriends, setFiltredFriends] = useState(friends);
@@ -59,6 +60,24 @@ const FriendsList = ({ friends, setFriends, bestFriends, setBestFriends }) => {
         setFiltredBestFriends(newArray);
       }
     }
+  };
+
+  const handleAddBestFriend = (friend) => {
+    setBestFriends([...bestFriends, friend]);
+    setFiltredFriends(filtredFriends.filter((f) => f._id !== friend._id));
+    setFriends(friends.filter((f) => f._id !== friend._id));
+  };
+
+  const handleDeleteFriend = (friend) => {
+    setFiltredFriends(filtredFriends.filter((f) => f._id !== friend._id));
+    setFriends(friends.filter((f) => f._id !== friend._id));
+  };
+
+  const handleDeleteBestFriend = (friend) => {
+    const newArr = filtredBestFriends.filter((f) => f._id !== friend._id);
+    setFiltredBestFriends(newArr);
+    setBestFriends(newArr);
+    setFriends([...friends, friend]);
   };
 
   return (
@@ -132,82 +151,26 @@ const FriendsList = ({ friends, setFriends, bestFriends, setBestFriends }) => {
           {isMainPage && filtredFriends.length !== 0 ? (
             filtredFriends.map((friend, index) => {
               return (
-                <tr key={friend._id}>
-                  <th scope='row'>{index + 1}</th>
-                  <td>{friend.name}</td>
-                  <td>{friend.profession.name}</td>
-                  <td>
-                    {friend.qualities.map((quality) => (
-                      <span
-                        className={`badge btn-${quality.color} m-1`}
-                        key={quality._id}
-                      >
-                        {quality.name}
-                      </span>
-                    ))}
-                  </td>
-                  <td>
-                    <button
-                      className='btn btn-success me-3'
-                      onClick={() => {
-                        setBestFriends([...bestFriends, friend]);
-                        setFiltredFriends(
-                          filtredFriends.filter((f) => f._id !== friend._id)
-                        );
-                        setFriends(friends.filter((f) => f._id !== friend._id));
-                      }}
-                    >
-                      Добавить в лучшие друзья
-                    </button>
-
-                    <button
-                      className='btn btn-danger'
-                      onClick={() => {
-                        setFiltredFriends(
-                          filtredFriends.filter((f) => f._id !== friend._id)
-                        );
-                        setFriends(friends.filter((f) => f._id !== friend._id));
-                      }}
-                    >
-                      Удалить друга
-                    </button>
-                  </td>
-                </tr>
+                <Friend
+                  key={friend._id}
+                  friend={friend}
+                  index={index}
+                  onAddBestFriend={handleAddBestFriend}
+                  onDeleteFriend={handleDeleteFriend}
+                  isMainPage={isMainPage}
+                />
               );
             })
           ) : filtredBestFriends.length !== 0 ? (
             filtredBestFriends.map((friend, index) => {
               return (
-                <tr key={friend._id}>
-                  <th scope='row'>{index + 1}</th>
-                  <td>{friend.name}</td>
-                  <td>{friend.profession.name}</td>
-                  <td>
-                    {friend.qualities.map((quality) => (
-                      <span
-                        className={`badge btn-${quality.color} m-1`}
-                        key={quality._id}
-                      >
-                        {quality.name}
-                      </span>
-                    ))}
-                  </td>
-                  <td>
-                    <button
-                      className='btn btn-danger'
-                      onClick={() => {
-                        const newArr = filtredBestFriends.filter(
-                          (f) => f._id !== friend._id
-                        );
-                        setFiltredBestFriends(newArr);
-                        setBestFriends(newArr);
-                        setFriends([...friends, friend]);
-                      }}
-                    >
-                      Убрать из лучших друзей
-                    </button>
-                  </td>
-                </tr>
+                <Friend
+                  key={friend._id}
+                  friend={friend}
+                  index={index}
+                  onDeleteBestFriend={handleDeleteBestFriend}
+                  isMainPage={isMainPage}
+                />
               );
             })
           ) : (
