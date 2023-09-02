@@ -4,11 +4,21 @@ import { professions } from "../../api/user.api.js";
 import { qualities } from "../../api/user.api";
 import { NavLink } from "react-router-dom";
 import Friend from "../Friend/Friend";
+import Pagination from "../Pagination/Pagination";
 
 const FriendsList = ({ friends, setFriends, bestFriends, setBestFriends }) => {
   const [filtredFriends, setFiltredFriends] = useState(friends);
   const [filtredBestFriends, setFiltredBestFriends] = useState(bestFriends);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [friendsPerPage] = useState(5);
   const isMainPage = window.location.pathname === "/";
+
+  const currentList = (array) => {
+    const lastIndexInList = currentPage * friendsPerPage;
+    const firstIndexInList = lastIndexInList - friendsPerPage;
+    const result = array.slice(firstIndexInList, lastIndexInList);
+    return result;
+  };
 
   const getOptions = (professions) => {
     let arr = [];
@@ -98,7 +108,7 @@ const FriendsList = ({ friends, setFriends, bestFriends, setBestFriends }) => {
           ? "Посмотреть список лучших друзей"
           : "Смотреть всех друзей"}
       </NavLink>
-      <table className='table table-hover'>
+      <table className='table table-hover mb-5'>
         <thead>
           <tr>
             <th scope='col'>#</th>
@@ -149,7 +159,7 @@ const FriendsList = ({ friends, setFriends, bestFriends, setBestFriends }) => {
 
         <tbody>
           {isMainPage && filtredFriends.length !== 0 ? (
-            filtredFriends.map((friend, index) => {
+            currentList(filtredFriends).map((friend, index) => {
               return (
                 <Friend
                   key={friend._id}
@@ -162,7 +172,7 @@ const FriendsList = ({ friends, setFriends, bestFriends, setBestFriends }) => {
               );
             })
           ) : filtredBestFriends.length !== 0 ? (
-            filtredBestFriends.map((friend, index) => {
+            currentList(filtredBestFriends).map((friend, index) => {
               return (
                 <Friend
                   key={friend._id}
@@ -182,6 +192,15 @@ const FriendsList = ({ friends, setFriends, bestFriends, setBestFriends }) => {
           )}
         </tbody>
       </table>
+
+      <Pagination
+        friendsPerPage={friendsPerPage}
+        totalFriends={filtredFriends}
+        totalBestFriends={filtredBestFriends}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+        isMainPage={isMainPage}
+      />
     </>
   );
 };
