@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FriendsCount from "../FriendsCount/FriendsCount";
 import { professions } from "../../api/user.api.js";
 import { qualities } from "../../api/user.api";
@@ -12,6 +12,10 @@ const FriendsList = ({ friends, setFriends, bestFriends, setBestFriends }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [friendsPerPage] = useState(5);
   const isMainPage = window.location.pathname === "/";
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filtredFriends, filtredBestFriends]);
 
   const currentList = (array) => {
     const lastIndexInList = currentPage * friendsPerPage;
@@ -59,12 +63,12 @@ const FriendsList = ({ friends, setFriends, bestFriends, setBestFriends }) => {
       }
     } else {
       if (isMainPage) {
-        const newArray = filtredFriends.filter((f) => {
+        const newArray = friends.filter((f) => {
           return f.qualities.some((item) => item.name === e.target.value);
         });
         setFiltredFriends(newArray);
       } else {
-        const newArray = filtredBestFriends.filter((f) => {
+        const newArray = bestFriends.filter((f) => {
           return f.qualities.some((item) => item.name === e.target.value);
         });
         setFiltredBestFriends(newArray);
