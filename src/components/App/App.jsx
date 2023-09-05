@@ -1,20 +1,57 @@
 import { Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FriendList } from "../pages/FriendList/FriendList";
 import { BestFriendList } from "../pages/BestFriendList/BestFriendList";
-
-import Api from "../../api/index";
+import API from "../../api/index";
 
 const App = () => {
   const [friends, setFriends] = useState([]);
   const [bestFriends, setBestFriends] = useState([]);
+  const [professions, setProfessions] = useState([]);
+  const [qualities, setQualities] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSearchClick = () => {
-    setFriends(Api.users.fetchAll());
+  useEffect(() => {
+    getProfessions();
+    getQualities();
+  }, []);
+
+  const getUsers = async () => {
+    try {
+      setIsLoading(true);
+      const users = await API.users.fetchAll();
+      setFriends(users);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getProfessions = async () => {
+    try {
+      const allProfessions = await API.professions.fetchAll();
+      setProfessions(allProfessions);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getQualities = async () => {
+    try {
+      const allQualities = await API.qualities.fetchAll();
+      const arr = [];
+      for (var key in allQualities) {
+        arr.push(allQualities[key]);
+      }
+      setQualities(arr);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <div className='page container vh-100'>
+    <div className='page container vh-100 d-flex flex-column align-items-center justify-content-center'>
       <Routes>
         <Route
           index
@@ -23,10 +60,13 @@ const App = () => {
           element={
             <FriendList
               friends={friends}
-              searchClick={handleSearchClick}
+              professions={professions}
+              qualities={qualities}
+              searchClick={getUsers}
               setFriends={setFriends}
               setBestFriends={setBestFriends}
               bestFriends={bestFriends}
+              isLoading={isLoading}
             />
           }
         />
@@ -35,9 +75,11 @@ const App = () => {
           path='/best-friends'
           element={
             <BestFriendList
-              bestFriends={bestFriends}
-              setBestFriends={setBestFriends}
               friends={friends}
+              bestFriends={bestFriends}
+              professions={professions}
+              qualities={qualities}
+              setBestFriends={setBestFriends}
               setFriends={setFriends}
             />
           }

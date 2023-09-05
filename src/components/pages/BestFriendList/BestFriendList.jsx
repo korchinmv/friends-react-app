@@ -5,6 +5,8 @@ export const BestFriendList = ({
   setBestFriends,
   friends,
   setFriends,
+  professions,
+  qualities,
 }) => {
   return (
     <FriendsList
@@ -12,6 +14,8 @@ export const BestFriendList = ({
       setBestFriends={setBestFriends}
       friends={friends}
       setFriends={setFriends}
+      professions={professions}
+      qualities={qualities}
     />
   );
 };

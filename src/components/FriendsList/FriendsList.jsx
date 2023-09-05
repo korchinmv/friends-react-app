@@ -1,12 +1,17 @@
 import { useState, useEffect } from "react";
 import FriendsCount from "../FriendsCount/FriendsCount";
-import { professions } from "../../api/user.api.js";
-import { qualities } from "../../api/user.api";
 import { NavLink } from "react-router-dom";
 import Friend from "../Friend/Friend";
 import Pagination from "../Pagination/Pagination";
 
-const FriendsList = ({ friends, setFriends, bestFriends, setBestFriends }) => {
+const FriendsList = ({
+  friends,
+  setFriends,
+  bestFriends,
+  setBestFriends,
+  professions,
+  qualities,
+}) => {
   const [filtredFriends, setFiltredFriends] = useState(friends);
   const [filtredBestFriends, setFiltredBestFriends] = useState(bestFriends);
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,14 +27,6 @@ const FriendsList = ({ friends, setFriends, bestFriends, setBestFriends }) => {
     const firstIndexInList = lastIndexInList - friendsPerPage;
     const result = array.slice(firstIndexInList, lastIndexInList);
     return result;
-  };
-
-  const getOptions = (professions) => {
-    let arr = [];
-    for (var key in professions) {
-      arr.push(professions[key]);
-    }
-    return arr;
   };
 
   const handleChangeOptionProfession = (e) => {
@@ -129,7 +126,7 @@ const FriendsList = ({ friends, setFriends, bestFriends, setBestFriends }) => {
                 <option value={""} disabled>
                   -- Выберите профессию --
                 </option>
-                {getOptions(professions).map((p) => (
+                {professions.map((p) => (
                   <option key={p._id} value={p.name}>
                     {p.name}
                   </option>
@@ -149,7 +146,7 @@ const FriendsList = ({ friends, setFriends, bestFriends, setBestFriends }) => {
                 <option value={""} disabled>
                   -- Выберите качество --
                 </option>
-                {getOptions(qualities).map((q) => (
+                {qualities.map((q) => (
                   <option key={q._id} value={q.name}>
                     {q.name}
                   </option>
@@ -196,7 +193,6 @@ const FriendsList = ({ friends, setFriends, bestFriends, setBestFriends }) => {
           )}
         </tbody>
       </table>
-
       <Pagination
         friendsPerPage={friendsPerPage}
         totalFriends={filtredFriends}
