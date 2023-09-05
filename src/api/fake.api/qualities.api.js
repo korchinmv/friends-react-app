@@ -31,8 +31,6 @@ export const qualities = {
   },
 };
 
-const fetchAll = () => qualities;
+const fetchAllQuakities = () => qualities;
 
-export default {
-  fetchAll,
-};
+export default fetchAllQuakities;

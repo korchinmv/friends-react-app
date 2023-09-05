@@ -20,7 +20,7 @@ const App = () => {
   const getUsers = async () => {
     try {
       setIsLoading(true);
-      const users = await API.users.fetchAll();
+      const users = await API.fetchAllUsers();
       setFriends(users);
     } catch (error) {
       console.log(error);
@@ -31,7 +31,7 @@ const App = () => {
 
   const getProfessions = async () => {
     try {
-      const allProfessions = await API.professions.fetchAll();
+      const allProfessions = await API.fetchAllProfessions();
       setProfessions(allProfessions);
     } catch (error) {
       console.log(error);
@@ -40,7 +40,7 @@ const App = () => {
 
   const getQualities = async () => {
     try {
-      const allQualities = await API.qualities.fetchAll();
+      const allQualities = await API.fetchAllQuakities();
       const arr = [];
       for (var key in allQualities) {
         arr.push(allQualities[key]);

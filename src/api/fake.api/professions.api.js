@@ -16,8 +16,6 @@ export const professions = [
   { _id: "67rdca3eeb7f6fgeed471829", name: "Повар" },
 ];
 
-const fetchAll = () => professions;
+const fetchAllProfessions = () => professions;
 
-export default {
-  fetchAll,
-};
+export default fetchAllProfessions;
