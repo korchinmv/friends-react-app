@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FriendList } from "../pages/FriendList/FriendList";
 import { BestFriendList } from "../pages/BestFriendList/BestFriendList";
+import { NotFound } from "../pages/NotFound/NotFound";
 import API from "../../api/index";
 
 const App = () => {
@@ -84,6 +85,7 @@ const App = () => {
             />
           }
         />
+        <Route exact path='/*' element={<NotFound />} />
       </Routes>
     </div>
   );
