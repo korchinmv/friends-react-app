@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import FriendsCount from "../FriendsCount/FriendsCount";
 import { NavLink } from "react-router-dom";
-import Friend from "../Friend/Friend";
+import FriendsCount from "../FriendsCount/FriendsCount";
 import Pagination from "../Pagination/Pagination";
+import Table from "../Table/Table";
 
 const FriendsList = ({
   friends,
@@ -14,6 +14,8 @@ const FriendsList = ({
 }) => {
   const [filtredFriends, setFiltredFriends] = useState(friends);
   const [filtredBestFriends, setFiltredBestFriends] = useState(bestFriends);
+  const [sortedFriendsList, setSortedFriendsList] = useState([]);
+  const [sorted, setSorted] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [friendsPerPage] = useState(5);
   const isMainPage = window.location.pathname === "/";
@@ -91,6 +93,34 @@ const FriendsList = ({
     setFriends([...friends, friend]);
   };
 
+  const sortBy = (list, condition) => {
+    if (condition) {
+      const arr = list.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      });
+      setSortedFriendsList(arr.reverse());
+      setSorted(false);
+    } else {
+      const arr = list.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      });
+      setSortedFriendsList(arr);
+      setSorted(true);
+    }
+  };
+
   return (
     <>
       <FriendsCount
@@ -109,90 +139,22 @@ const FriendsList = ({
           ? "Посмотреть список лучших друзей"
           : "Смотреть всех друзей"}
       </NavLink>
-      <table className='table table-hover mb-5'>
-        <thead>
-          <tr>
-            <th scope='col'>#</th>
-            <th scope='col'>Имя</th>
-            <th scope='col'>
-              <label htmlFor='select-proffesion'>Профессия:</label>
-              <select
-                className='form-select'
-                id='select-proffesion'
-                defaultValue={""}
-                onChange={handleChangeOptionProfession}
-                required
-              >
-                <option value={""} disabled>
-                  -- Выберите профессию --
-                </option>
-                {professions.map((p) => (
-                  <option key={p._id} value={p.name}>
-                    {p.name}
-                  </option>
-                ))}
-                <option value={"all"}>Все профессии</option>
-              </select>
-            </th>
-            <th scope='col'>
-              <label htmlFor='select-quality'>Качество:</label>
-              <select
-                className='form-select'
-                id='select-quality'
-                defaultValue={""}
-                onChange={handleChangeOptionQuality}
-                required
-              >
-                <option value={""} disabled>
-                  -- Выберите качество --
-                </option>
-                {qualities.map((q) => (
-                  <option key={q._id} value={q.name}>
-                    {q.name}
-                  </option>
-                ))}
-                <option value={"all"}>Все качества</option>
-              </select>
-            </th>
-            <th scope='col'>Действие</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {isMainPage && filtredFriends.length !== 0 ? (
-            currentList(filtredFriends).map((friend, index) => {
-              return (
-                <Friend
-                  key={friend._id}
-                  friend={friend}
-                  index={index}
-                  onAddBestFriend={handleAddBestFriend}
-                  onDeleteFriend={handleDeleteFriend}
-                  isMainPage={isMainPage}
-                />
-              );
-            })
-          ) : filtredBestFriends.length !== 0 ? (
-            currentList(filtredBestFriends).map((friend, index) => {
-              return (
-                <Friend
-                  key={friend._id}
-                  friend={friend}
-                  index={index}
-                  onDeleteBestFriend={handleDeleteBestFriend}
-                  isMainPage={isMainPage}
-                />
-              );
-            })
-          ) : (
-            <tr>
-              <td className='text-center' colSpan='5'>
-                Список пуст
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      <Table
+        filtredFriends={filtredFriends}
+        filtredBestFriends={filtredBestFriends}
+        sortedFriendsList={sortedFriendsList}
+        professions={professions}
+        qualities={qualities}
+        onChangeOptionProfession={handleChangeOptionProfession}
+        onChangeOptionQuality={handleChangeOptionQuality}
+        onAddBestFriend={handleAddBestFriend}
+        onDeleteFriend={handleDeleteFriend}
+        onDeleteBestFriend={handleDeleteBestFriend}
+        isMainPage={isMainPage}
+        currentList={currentList}
+        sortBy={sortBy}
+        sorted={sorted}
+      />
       <Pagination
         friendsPerPage={friendsPerPage}
         totalFriends={filtredFriends}
