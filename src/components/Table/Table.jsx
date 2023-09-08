@@ -4,7 +4,6 @@ import TableBody from "./TableBody/TableBody";
 const Table = ({
   filtredFriends,
   filtredBestFriends,
-  sortedFriendsList,
   professions,
   qualities,
   onChangeOptionProfession,

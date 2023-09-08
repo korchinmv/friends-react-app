@@ -30,6 +30,15 @@ const users = [
     bookmark: false,
   },
   {
+    _id: "67rdca3eedsf6fgeed47185342",
+    name: "Арнольд",
+    profession: professions.actor,
+    qualities: [qualities.alcoholic],
+    completedMeetings: 434,
+    rate: 5,
+    bookmark: false,
+  },
+  {
     _id: "67rdca3eeb7f6fgeed471818",
     name: "Рэйчел Грин",
     profession: professions.waiter,
@@ -63,6 +72,15 @@ const users = [
     qualities: [qualities.strange, qualities.tedious],
     completedMeetings: 72,
     rate: 3.5,
+    bookmark: false,
+  },
+  {
+    _id: "67adca3esdff6fgeed47185342",
+    name: "Леонардо Ди",
+    profession: professions.actor,
+    qualities: [qualities.tedious, qualities.uncertain],
+    completedMeetings: 444,
+    rate: 3,
     bookmark: false,
   },
   {
@@ -108,6 +126,15 @@ const users = [
     qualities: [qualities.handsome],
     completedMeetings: 434,
     rate: 5,
+    bookmark: false,
+  },
+  {
+    _id: "67rdca3eeb7f6fgeed47185342",
+    name: "Джон Уик",
+    profession: professions.actor,
+    qualities: [qualities.handsome],
+    completedMeetings: 434,
+    rate: 2,
     bookmark: false,
   },
 ];

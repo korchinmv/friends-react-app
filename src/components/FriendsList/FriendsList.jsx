@@ -14,10 +14,9 @@ const FriendsList = ({
 }) => {
   const [filtredFriends, setFiltredFriends] = useState(friends);
   const [filtredBestFriends, setFiltredBestFriends] = useState(bestFriends);
-  const [sortedFriendsList, setSortedFriendsList] = useState([]);
   const [sorted, setSorted] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [friendsPerPage] = useState(5);
+  const [friendsPerPage] = useState(7);
   const isMainPage = window.location.pathname === "/";
 
   useEffect(() => {
@@ -93,7 +92,7 @@ const FriendsList = ({
     setFriends([...friends, friend]);
   };
 
-  const sortBy = (list, condition) => {
+  const sortBy = (list, condition, page) => {
     if (condition) {
       const arr = list.sort((a, b) => {
         if (a.name < b.name) {
@@ -104,7 +103,9 @@ const FriendsList = ({
         }
         return 0;
       });
-      setSortedFriendsList(arr.reverse());
+      page
+        ? setFiltredFriends(arr.reverse())
+        : setFiltredBestFriends(arr.reverse());
       setSorted(false);
     } else {
       const arr = list.sort((a, b) => {
@@ -116,7 +117,7 @@ const FriendsList = ({
         }
         return 0;
       });
-      setSortedFriendsList(arr);
+      page ? setFiltredFriends(arr) : setFiltredBestFriends(arr);
       setSorted(true);
     }
   };
@@ -142,7 +143,6 @@ const FriendsList = ({
       <Table
         filtredFriends={filtredFriends}
         filtredBestFriends={filtredBestFriends}
-        sortedFriendsList={sortedFriendsList}
         professions={professions}
         qualities={qualities}
         onChangeOptionProfession={handleChangeOptionProfession}

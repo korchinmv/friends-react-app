@@ -9,8 +9,6 @@ const TableBody = ({
   filtredFriends,
   filtredBestFriends,
 }) => {
-  console.log(filtredFriends);
-  console.log(filtredBestFriends);
   return (
     <tbody>
       {isMainPage && filtredFriends.length !== 0 ? (
