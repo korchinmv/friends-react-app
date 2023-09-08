@@ -1,7 +1,8 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { FriendList } from "../pages/FriendList/FriendList";
-import { BestFriendList } from "../pages/BestFriendList/BestFriendList";
+import { Friends } from "../pages/Friends/Friends";
+import { BestFriends } from "../pages/BestFriends/BestFriends";
+import Searching from "../Searching/Searching";
 import { NotFound } from "../pages/NotFound/NotFound";
 import API from "../../api/index";
 
@@ -11,17 +12,19 @@ const App = () => {
   const [professions, setProfessions] = useState([]);
   const [qualities, setQualities] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getProfessions();
     getQualities();
-  }, []);
+  }, [friends]);
 
   const getUsers = async () => {
     try {
       setIsLoading(true);
       const users = await API.fetchAllUsers();
       setFriends(users);
+      navigate("/friends");
     } catch (error) {
       console.log(error);
     } finally {
@@ -58,12 +61,15 @@ const App = () => {
           index
           exact
           path='/'
+          element={<Searching clickSearch={getUsers} isLoading={isLoading} />}
+        />
+        <Route
+          path='/friends/:friendId?'
           element={
-            <FriendList
+            <Friends
               friends={friends}
               professions={professions}
               qualities={qualities}
-              searchClick={getUsers}
               setFriends={setFriends}
               setBestFriends={setBestFriends}
               bestFriends={bestFriends}
@@ -73,9 +79,9 @@ const App = () => {
         />
 
         <Route
-          path='/best-friends'
+          path='/best-friends/:friendId?'
           element={
-            <BestFriendList
+            <BestFriends
               friends={friends}
               bestFriends={bestFriends}
               professions={professions}

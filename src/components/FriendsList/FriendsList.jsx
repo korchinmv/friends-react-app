@@ -12,12 +12,19 @@ const FriendsList = ({
   professions,
   qualities,
 }) => {
-  const [filtredFriends, setFiltredFriends] = useState(friends);
+  const [filtredFriends, setFiltredFriends] = useState([]);
   const [filtredBestFriends, setFiltredBestFriends] = useState(bestFriends);
   const [sorted, setSorted] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [friendsPerPage] = useState(7);
   const isMainPage = window.location.pathname === "/";
+  console.log(filtredFriends);
+  useEffect(() => {
+    if (friends) {
+      setFiltredFriends(friends);
+    }
+    return;
+  }, []);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -124,45 +131,51 @@ const FriendsList = ({
 
   return (
     <>
-      <FriendsCount
-        friendsCount={filtredFriends.length}
-        bestFriendsCount={filtredBestFriends.length}
-        isMainPage={isMainPage}
-      />
-      <NavLink
-        style={{ width: "fit-content" }}
-        className={
-          "link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover d-block mb-5 mx-auto"
-        }
-        to={isMainPage ? "/best-friends" : "/"}
-      >
-        {isMainPage
-          ? "Посмотреть список лучших друзей"
-          : "Смотреть всех друзей"}
-      </NavLink>
-      <Table
-        filtredFriends={filtredFriends}
-        filtredBestFriends={filtredBestFriends}
-        professions={professions}
-        qualities={qualities}
-        onChangeOptionProfession={handleChangeOptionProfession}
-        onChangeOptionQuality={handleChangeOptionQuality}
-        onAddBestFriend={handleAddBestFriend}
-        onDeleteFriend={handleDeleteFriend}
-        onDeleteBestFriend={handleDeleteBestFriend}
-        isMainPage={isMainPage}
-        currentList={currentList}
-        sortBy={sortBy}
-        sorted={sorted}
-      />
-      <Pagination
-        friendsPerPage={friendsPerPage}
-        totalFriends={filtredFriends}
-        totalBestFriends={filtredBestFriends}
-        setCurrentPage={setCurrentPage}
-        currentPage={currentPage}
-        isMainPage={isMainPage}
-      />
+      {friends || bestFriends ? (
+        <>
+          <FriendsCount
+            friendsCount={filtredFriends.length}
+            bestFriendsCount={filtredBestFriends.length}
+            isMainPage={isMainPage}
+          />
+          <NavLink
+            style={{ width: "fit-content" }}
+            className={
+              "link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover d-block mb-5 mx-auto"
+            }
+            to={isMainPage ? "/best-friends" : "/"}
+          >
+            {isMainPage
+              ? "Посмотреть список лучших друзей"
+              : "Смотреть всех друзей"}
+          </NavLink>
+          <Table
+            filtredFriends={filtredFriends}
+            filtredBestFriends={filtredBestFriends}
+            professions={professions}
+            qualities={qualities}
+            onChangeOptionProfession={handleChangeOptionProfession}
+            onChangeOptionQuality={handleChangeOptionQuality}
+            onAddBestFriend={handleAddBestFriend}
+            onDeleteFriend={handleDeleteFriend}
+            onDeleteBestFriend={handleDeleteBestFriend}
+            isMainPage={isMainPage}
+            currentList={currentList}
+            sortBy={sortBy}
+            sorted={sorted}
+          />
+          <Pagination
+            friendsPerPage={friendsPerPage}
+            totalFriends={filtredFriends}
+            totalBestFriends={filtredBestFriends}
+            setCurrentPage={setCurrentPage}
+            currentPage={currentPage}
+            isMainPage={isMainPage}
+          />
+        </>
+      ) : (
+        <h1>Ошибка</h1>
+      )}
     </>
   );
 };

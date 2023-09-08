@@ -30,13 +30,13 @@ const Table = ({
         isMainPage={isMainPage}
       />
       <TableBody
+        filtredFriends={filtredFriends}
+        filtredBestFriends={filtredBestFriends}
         isMainPage={isMainPage}
         currentList={currentList}
         onAddBestFriend={onAddBestFriend}
         onDeleteFriend={onDeleteFriend}
         onDeleteBestFriend={onDeleteBestFriend}
-        filtredFriends={filtredFriends}
-        filtredBestFriends={filtredBestFriends}
       />
     </table>
   );
