@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Friend = ({
   friend,
   index,
@@ -5,11 +7,19 @@ const Friend = ({
   onDeleteFriend,
   onDeleteBestFriend,
   isMainPage,
+  searchFriendById,
 }) => {
   return (
     <tr>
       <th scope='row'>{index + 1}</th>
-      <td>{friend.name}</td>
+      <td>
+        <Link
+          to={`/${isMainPage ? "friends" : "best-friends"}/${123}`}
+          onClick={searchFriendById}
+        >
+          {friend.name}{" "}
+        </Link>{" "}
+      </td>
       <td>{friend.profession.name}</td>
       <td>
         {friend.qualities.map((quality) => (

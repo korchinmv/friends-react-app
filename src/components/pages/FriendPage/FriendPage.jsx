@@ -1,5 +1,5 @@
-const FriendPage = () => {
-  return <h1>hi</h1>;
+const FriendPage = ({ friendId }) => {
+  return <h1>{friendId}</h1>;
 };
 
 export default FriendPage;

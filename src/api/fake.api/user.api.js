@@ -146,9 +146,10 @@ const fetchAllUsers = () =>
     }, 1500);
   });
 
-const getById = (id) =>
+export const getById = (id) =>
   new Promise((resolve) => {
     window.setTimeout(function () {
+      console.log(id);
       resolve(users.find((user) => user._id === id));
     }, 1000);
   });

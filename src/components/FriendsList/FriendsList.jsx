@@ -11,21 +11,16 @@ const FriendsList = ({
   setBestFriends,
   professions,
   qualities,
+  searchFriendById,
+  friendId,
 }) => {
-  const [filtredFriends, setFiltredFriends] = useState([]);
+  console.log(friendId);
+  const [filtredFriends, setFiltredFriends] = useState(friends);
   const [filtredBestFriends, setFiltredBestFriends] = useState(bestFriends);
   const [sorted, setSorted] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [friendsPerPage] = useState(7);
-  const isMainPage = window.location.pathname === "/";
-  console.log(filtredFriends);
-  useEffect(() => {
-    if (friends) {
-      setFiltredFriends(friends);
-    }
-    return;
-  }, []);
-
+  const isMainPage = window.location.pathname === "/friends";
   useEffect(() => {
     setCurrentPage(1);
   }, [filtredFriends, filtredBestFriends]);
@@ -131,7 +126,7 @@ const FriendsList = ({
 
   return (
     <>
-      {friends || bestFriends ? (
+      {friends ? (
         <>
           <FriendsCount
             friendsCount={filtredFriends.length}
@@ -143,7 +138,7 @@ const FriendsList = ({
             className={
               "link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover d-block mb-5 mx-auto"
             }
-            to={isMainPage ? "/best-friends" : "/"}
+            to={isMainPage ? "/best-friends" : "/friends"}
           >
             {isMainPage
               ? "Посмотреть список лучших друзей"
@@ -163,6 +158,7 @@ const FriendsList = ({
             currentList={currentList}
             sortBy={sortBy}
             sorted={sorted}
+            searchFriendById={searchFriendById}
           />
           <Pagination
             friendsPerPage={friendsPerPage}

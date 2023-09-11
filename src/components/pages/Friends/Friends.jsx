@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import FriendsList from "../../FriendsList/FriendsList";
 import FriendPage from "../FriendPage/FriendPage";
+import { getById } from "../../../api/fake.api/user.api";
 
 export const Friends = ({
   friends,
@@ -11,10 +12,13 @@ export const Friends = ({
   qualities,
 }) => {
   const { friendId } = useParams();
+  const handleGetFriend = () => {
+    getById(friendId);
+  };
   return (
     <>
       {friendId ? (
-        <FriendPage />
+        <FriendPage friendId={friendId} />
       ) : (
         <FriendsList
           friends={friends}
@@ -23,6 +27,8 @@ export const Friends = ({
           setBestFriends={setBestFriends}
           professions={professions}
           qualities={qualities}
+          searchFriendById={handleGetFriend}
+          friendId={friendId}
         />
       )}
     </>

@@ -17,7 +17,7 @@ const App = () => {
   useEffect(() => {
     getProfessions();
     getQualities();
-  }, [friends]);
+  }, []);
 
   const getUsers = async () => {
     try {

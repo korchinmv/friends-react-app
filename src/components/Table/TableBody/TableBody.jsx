@@ -8,6 +8,7 @@ const TableBody = ({
   onAddBestFriend,
   onDeleteFriend,
   onDeleteBestFriend,
+  searchFriendById,
 }) => {
   return (
     <tbody>
@@ -21,6 +22,7 @@ const TableBody = ({
               onAddBestFriend={onAddBestFriend}
               onDeleteFriend={onDeleteFriend}
               isMainPage={isMainPage}
+              searchFriendById={searchFriendById}
             />
           );
         })
