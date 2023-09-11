@@ -10,11 +10,11 @@ export const BestFriends = ({
   professions,
   qualities,
 }) => {
-  const { friendId } = useParams;
+  const { friendId } = useParams();
   return (
     <>
       {friendId ? (
-        <FriendPage />
+        <FriendPage friendId={friendId} />
       ) : (
         <FriendsList
           bestFriends={bestFriends}

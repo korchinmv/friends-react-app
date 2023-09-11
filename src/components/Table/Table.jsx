@@ -15,7 +15,6 @@ const Table = ({
   onDeleteBestFriend,
   sortBy,
   sorted,
-  searchFriendById,
 }) => {
   return (
     <table className='table table-hover mb-5'>
@@ -38,7 +37,6 @@ const Table = ({
         onAddBestFriend={onAddBestFriend}
         onDeleteFriend={onDeleteFriend}
         onDeleteBestFriend={onDeleteBestFriend}
-        searchFriendById={searchFriendById}
       />
     </table>
   );

@@ -73,7 +73,6 @@ const App = () => {
               setFriends={setFriends}
               setBestFriends={setBestFriends}
               bestFriends={bestFriends}
-              isLoading={isLoading}
             />
           }
         />

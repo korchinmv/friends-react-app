@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { isMainPage } from "../../utils/variables";
 import FriendsCount from "../FriendsCount/FriendsCount";
 import Pagination from "../Pagination/Pagination";
 import Table from "../Table/Table";
@@ -11,16 +12,13 @@ const FriendsList = ({
   setBestFriends,
   professions,
   qualities,
-  searchFriendById,
-  friendId,
 }) => {
-  console.log(friendId);
   const [filtredFriends, setFiltredFriends] = useState(friends);
   const [filtredBestFriends, setFiltredBestFriends] = useState(bestFriends);
   const [sorted, setSorted] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [friendsPerPage] = useState(7);
-  const isMainPage = window.location.pathname === "/friends";
+
   useEffect(() => {
     setCurrentPage(1);
   }, [filtredFriends, filtredBestFriends]);
@@ -158,7 +156,6 @@ const FriendsList = ({
             currentList={currentList}
             sortBy={sortBy}
             sorted={sorted}
-            searchFriendById={searchFriendById}
           />
           <Pagination
             friendsPerPage={friendsPerPage}
