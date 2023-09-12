@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { getById } from "../../../api/fake.api/user.api";
 import { useNavigate } from "react-router-dom";
-import { isMainPage } from "../../../utils/variables";
 import Preloader from "../../Preloader/Preloader";
 import QualitiesList from "../../QualitiesList/QualitiesList";
 
 const FriendPage = ({ friendId }) => {
   const [friend, setFriend] = useState();
   const history = useNavigate();
+  const isMainPage = window.location.pathname === "/friends";
 
   const checkPage = (page) => (page ? "/friends" : "/best-friends");
 

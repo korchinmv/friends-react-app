@@ -2,8 +2,9 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Friends } from "../pages/Friends/Friends";
 import { BestFriends } from "../pages/BestFriends/BestFriends";
-import Searching from "../Searching/Searching";
 import { NotFound } from "../pages/NotFound/NotFound";
+import ProtectedRouteElement from "../ProtectedRouteElement/ProtectedRouteElement";
+import Searching from "../Searching/Searching";
 import API from "../../api/index";
 
 const App = () => {
@@ -66,7 +67,8 @@ const App = () => {
         <Route
           path='/friends/:friendId?'
           element={
-            <Friends
+            <ProtectedRouteElement
+              element={Friends}
               friends={friends}
               professions={professions}
               qualities={qualities}
@@ -80,7 +82,8 @@ const App = () => {
         <Route
           path='/best-friends/:friendId?'
           element={
-            <BestFriends
+            <ProtectedRouteElement
+              element={BestFriends}
               friends={friends}
               bestFriends={bestFriends}
               professions={professions}

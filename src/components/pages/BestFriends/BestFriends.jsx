@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import FriendsList from "../../FriendsList/FriendsList";
 import FriendPage from "../FriendPage/FriendPage";
+import TitlePage from "../../TitlePage/TitlePage";
 
 export const BestFriends = ({
   bestFriends,
@@ -16,14 +17,17 @@ export const BestFriends = ({
       {friendId ? (
         <FriendPage friendId={friendId} />
       ) : (
-        <FriendsList
-          bestFriends={bestFriends}
-          setBestFriends={setBestFriends}
-          friends={friends}
-          setFriends={setFriends}
-          professions={professions}
-          qualities={qualities}
-        />
+        <>
+          <TitlePage title={"Список лучших друзей"} />
+          <FriendsList
+            bestFriends={bestFriends}
+            setBestFriends={setBestFriends}
+            friends={friends}
+            setFriends={setFriends}
+            professions={professions}
+            qualities={qualities}
+          />
+        </>
       )}
     </>
   );

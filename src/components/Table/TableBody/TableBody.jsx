@@ -3,11 +3,11 @@ import Friend from "../../Friend/Friend";
 const TableBody = ({
   filtredFriends,
   filtredBestFriends,
-  isMainPage,
   currentList,
   onAddBestFriend,
   onDeleteFriend,
   onDeleteBestFriend,
+  isMainPage,
 }) => {
   return (
     <tbody>

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
-import { isMainPage } from "../../utils/variables";
+import { NavLink, Navigate } from "react-router-dom";
 import FriendsCount from "../FriendsCount/FriendsCount";
 import Pagination from "../Pagination/Pagination";
 import Table from "../Table/Table";
@@ -18,6 +17,7 @@ const FriendsList = ({
   const [sorted, setSorted] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [friendsPerPage] = useState(7);
+  const isMainPage = window.location.pathname === "/friends";
 
   useEffect(() => {
     setCurrentPage(1);
@@ -121,7 +121,6 @@ const FriendsList = ({
       setSorted(true);
     }
   };
-
   return (
     <>
       {friends ? (
@@ -167,7 +166,7 @@ const FriendsList = ({
           />
         </>
       ) : (
-        <h1>Ошибка</h1>
+        <Navigate to='/' replace />
       )}
     </>
   );
