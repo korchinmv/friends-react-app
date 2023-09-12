@@ -3,6 +3,7 @@ import { NavLink, Navigate } from "react-router-dom";
 import FriendsCount from "../FriendsCount/FriendsCount";
 import Pagination from "../Pagination/Pagination";
 import Table from "../Table/Table";
+import SearchingInput from "../SearchingInput/SearchingInput";
 
 const FriendsList = ({
   friends,
@@ -17,11 +18,35 @@ const FriendsList = ({
   const [sorted, setSorted] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [friendsPerPage] = useState(7);
+  const [searchInput, setSearchInput] = useState("");
   const isMainPage = window.location.pathname === "/friends";
-
+  console.log(searchInput);
   useEffect(() => {
     setCurrentPage(1);
   }, [filtredFriends, filtredBestFriends]);
+
+  useEffect(() => {
+    if (searchInput === "") {
+      isMainPage
+        ? setFiltredFriends(filtredFriends)
+        : setFiltredBestFriends(filtredBestFriends);
+    }
+    searchingFriend();
+  }, [searchInput]);
+
+  const searchingFriend = () => {
+    if (isMainPage) {
+      const serchedFriend = filtredFriends.filter((friend) =>
+        friend.name.toLowerCase().includes(searchInput.toLowerCase().trim())
+      );
+      setFiltredFriends(serchedFriend);
+    } else {
+      const serchedFriend = filtredBestFriends.filter((friend) =>
+        friend.name.toLowerCase().includes(searchInput.toLowerCase().trim())
+      );
+      setFiltredFriends(serchedFriend);
+    }
+  };
 
   const currentList = (array) => {
     const lastIndexInList = currentPage * friendsPerPage;
@@ -141,6 +166,10 @@ const FriendsList = ({
               ? "Посмотреть список лучших друзей"
               : "Смотреть всех друзей"}
           </NavLink>
+          <SearchingInput
+            searchInput={searchInput}
+            setSearchInput={setSearchInput}
+          />
           <Table
             filtredFriends={filtredFriends}
             filtredBestFriends={filtredBestFriends}

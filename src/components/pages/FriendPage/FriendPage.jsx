@@ -1,23 +1,19 @@
 import { useEffect, useState } from "react";
 import { getById } from "../../../api/fake.api/user.api";
-import { useNavigate } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import Preloader from "../../Preloader/Preloader";
 import QualitiesList from "../../QualitiesList/QualitiesList";
 
 const FriendPage = ({ friendId }) => {
   const [friend, setFriend] = useState();
-  const history = useNavigate();
-  const isMainPage = window.location.pathname === "/friends";
-
-  const checkPage = (page) => (page ? "/friends" : "/best-friends");
-
-  const handleClick = () => {
-    history(checkPage(isMainPage));
-  };
+  const location = useLocation();
 
   useEffect(() => {
     getFriend();
-  }, []);
+  });
+
+  const checkPage = () =>
+    location.pathname.slice(0, 8) === "/friends" ? "/friends" : "/best-friends";
 
   const getFriend = async () => {
     try {
@@ -36,9 +32,9 @@ const FriendPage = ({ friendId }) => {
             <h4 className='mb-4'>{friend.profession.name}</h4>
             <QualitiesList qualitiesArr={friend.qualities} />
           </div>
-          <button className='btn btn-primary' onClick={handleClick}>
+          <Link to={checkPage()} className='btn btn-primary'>
             Вернуться к списку
-          </button>
+          </Link>
         </>
       ) : (
         <Preloader />
